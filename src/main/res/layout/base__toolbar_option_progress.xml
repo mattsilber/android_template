@@ -1,0 +1,7 @@
+<ProgressBar xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/base__toolbar_option_progress"
+    android:layout_width="@dimen/base__toolbar_item_button_size_with_horizontal_padding"
+    android:layout_height="@dimen/base__toolbar_option_image"
+    android:gravity="center"
+    android:paddingLeft="@dimen/base__toolbar_option_padding"
+    android:paddingRight="@dimen/base__toolbar_option_padding" />

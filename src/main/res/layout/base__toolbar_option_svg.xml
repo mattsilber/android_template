@@ -1,0 +1,13 @@
+<com.guardanis.imageloader.views.SVGImageView
+    android:id="@+id/base__toolbar_option_svg"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent"
+    android:layout_gravity="right|center_vertical"
+    android:adjustViewBounds="true"
+    android:background="@drawable/base__button_transparent"
+    android:gravity="center"
+    android:paddingBottom="@dimen/base__toolbar_svg_padding_vertical"
+    android:paddingLeft="@dimen/base__toolbar_svg_padding_horizontal"
+    android:paddingRight="@dimen/base__toolbar_svg_padding_horizontal"
+    android:paddingTop="@dimen/base__toolbar_svg_padding_vertical"/>
