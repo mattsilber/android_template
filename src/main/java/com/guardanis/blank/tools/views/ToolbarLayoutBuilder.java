@@ -160,7 +160,17 @@ public class ToolbarLayoutBuilder {
     }
 
     public ToolbarLayoutBuilder setTransparentBackground() {
-        getParent().setBackgroundColor(Color.TRANSPARENT);
+        return setBackgroundColor(Color.TRANSPARENT);
+    }
+
+    public ToolbarLayoutBuilder setBackgroundColor(int color) {
+        getParent().setBackgroundColor(color);
+
+        return this;
+    }
+
+    public ToolbarLayoutBuilder setBackgroundResource(int resourceId) {
+        getParent().setBackgroundResource(resourceId);
 
         return this;
     }
@@ -169,6 +179,10 @@ public class ToolbarLayoutBuilder {
         getParent().setVisibility(View.GONE);
 
         return this;
+    }
+
+    public Toolbar getToolbar(){
+        return toolbar;
     }
 
 }

@@ -9,6 +9,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.RippleDrawable;
 import android.os.Build;
@@ -24,6 +25,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.guardanis.imageloader.ImageUtils;
 
 public class ViewHelper {
 
@@ -247,5 +250,11 @@ public class ViewHelper {
 
             return false;
         });
+    }
+
+    public static void setStateListColorBackground(View view, int normal, int pressed){
+        setBackgroundDrawableAndKeepPadding(view,
+                ImageUtils.buildStateListDrawable(new ColorDrawable(normal),
+                        new ColorDrawable(pressed)));
     }
 }
