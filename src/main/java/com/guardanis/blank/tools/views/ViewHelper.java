@@ -63,7 +63,12 @@ public class ViewHelper {
             v.setBackgroundResource(resId);
         else{
             try{
-                RippleDrawable rippledImage = new RippleDrawable(ColorStateList.valueOf(resId), v.getContext().getResources().getDrawable(resId), null);
+                RippleDrawable rippledImage = new RippleDrawable(ColorStateList.valueOf(resId),
+                        v.getContext()
+                                .getResources()
+                                .getDrawable(resId),
+                        null);
+
                 setBackgroundDrawable(v, rippledImage);
             }
             catch(Throwable e){ e.printStackTrace(); }
@@ -92,26 +97,32 @@ public class ViewHelper {
     }
 
     public static void addGlobalLayoutRequest(final View v, Runnable runnable){
-        v.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
-            public void onGlobalLayout() {
-                runnable.run();
-                removeOnGlobalLayoutListener(v, this);
-            }
-        });
+        v.getViewTreeObserver()
+                .addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    public void onGlobalLayout() {
+                        runnable.run();
+
+                        removeOnGlobalLayoutListener(v, this);
+                    }
+                });
     }
 
     @SuppressLint("NewApi")
     public static void removeOnGlobalLayoutListener(View v, ViewTreeObserver.OnGlobalLayoutListener listener) {
         if(Build.VERSION.SDK_INT < 16)
-            v.getViewTreeObserver().removeGlobalOnLayoutListener(listener);
-        else v.getViewTreeObserver().removeOnGlobalLayoutListener(listener);
+            v.getViewTreeObserver()
+                    .removeGlobalOnLayoutListener(listener);
+        else v.getViewTreeObserver()
+                .removeOnGlobalLayoutListener(listener);
     }
 
     public static void adjustScrollingInputs(Activity activity) {
         if(android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
-            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
+            activity.getWindow()
+                    .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN);
         else
-            activity.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+            activity.getWindow()
+                    .setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     public static boolean validateColor(String color) {
@@ -124,60 +135,57 @@ public class ViewHelper {
 
     public static void closeSoftInputKeyboard(EditText et) {
         et.clearFocus();
+
         closeSoftInputKeyboard((View) et);
     }
 
     public static void closeSoftInputKeyboard(View v) {
-        ((InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
+        ((InputMethodManager) v.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .hideSoftInputFromWindow(v.getApplicationWindowToken(), 0);
     }
 
     public static void closeSoftInputKeyboardOnLayout(final View view) {
         view.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
                 removeOnGlobalLayoutListener(view, this);
-                view.postDelayed(new Runnable() {
-                    public void run() {
-                        closeSoftInputKeyboard(view);
-                    }
-                }, 200);
+
+                view.postDelayed(() ->
+                        closeSoftInputKeyboard(view), 200);
             }
         });
         view.requestLayout();
     }
 
     public static void openSoftInputKeyboard(EditText et) {
-        ((InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE)).toggleSoftInputFromWindow(et.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
+        ((InputMethodManager) et.getContext().getSystemService(Context.INPUT_METHOD_SERVICE))
+                .toggleSoftInputFromWindow(et.getApplicationWindowToken(), InputMethodManager.SHOW_FORCED, 0);
     }
 
     public static void openSoftInputKeyboardOnLayout(final EditText et) {
         et.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
             public void onGlobalLayout() {
                 removeOnGlobalLayoutListener(et, this);
-                et.postDelayed(new Runnable() {
-                    public void run() {
-                        openSoftInputKeyboard(et);
-                    }
-                }, 200);
+
+                et.postDelayed(() ->
+                        openSoftInputKeyboard(et), 200);
             }
         });
         et.requestLayout();
     }
 
-    public static Bitmap getActivitySnapshot(Activity activity, boolean fade) {
+    public static Bitmap getActivitySnapshot(Activity activity) {
         View view = activity.getWindow().getDecorView();
         view.setDrawingCacheEnabled(true);
-        Bitmap bmap = view.getDrawingCache();
 
         Rect statusBar = new Rect();
-        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(statusBar);
-        Bitmap snapshot = Bitmap.createBitmap(bmap, 0, statusBar.top, bmap.getWidth(), bmap.getHeight() - statusBar.top, null, true);
 
-        if(fade && snapshot != null){
-            Canvas canvas = new Canvas(snapshot);
-            Paint paint = new Paint();
-            paint.setColor(Color.parseColor("#88121212"));
-            canvas.drawRect(0, 0, snapshot.getWidth(), snapshot.getHeight(), paint);
-        }
+        Bitmap bmap = view.getDrawingCache();
+
+        activity.getWindow()
+                .getDecorView()
+                .getWindowVisibleDisplayFrame(statusBar);
+
+        Bitmap snapshot = Bitmap.createBitmap(bmap, 0, statusBar.top, bmap.getWidth(), bmap.getHeight() - statusBar.top, null, true);
 
         view.setDrawingCacheEnabled(false);
         return snapshot;
@@ -188,6 +196,7 @@ public class ViewHelper {
 
         for(int i = 0; i < group.getChildCount(); i++){
             View v = group.getChildAt(i);
+
             if(v instanceof ViewGroup){
                 v.setEnabled(true);
                 enableChildren((ViewGroup) v);
@@ -201,6 +210,7 @@ public class ViewHelper {
 
         for(int i = 0; i < group.getChildCount(); i++){
             View v = group.getChildAt(i);
+
             if(v instanceof ViewGroup){
                 v.setEnabled(false);
                 disableChildren((ViewGroup) v);
@@ -210,14 +220,17 @@ public class ViewHelper {
     }
 
     public static int getValueInRange(int value, int[] range) {
-        if(value < range[0]) return range[0];
-        else if(range[1] < value) return range[1];
+        if(value < range[0])
+            return range[0];
+        else if(range[1] < value)
+            return range[1];
         else return value;
     }
 
     public static boolean isSoftKeyboardFinishedAction(TextView view, int action, KeyEvent event) {
         // Some devices return null event on editor actions for Enter Button
-        return (action == EditorInfo.IME_ACTION_DONE || action == EditorInfo.IME_ACTION_GO || action == EditorInfo.IME_ACTION_SEND) && (event == null || event.getAction() == KeyEvent.ACTION_DOWN);
+        return (action == EditorInfo.IME_ACTION_DONE || action == EditorInfo.IME_ACTION_GO || action == EditorInfo.IME_ACTION_SEND)
+                && (event == null || event.getAction() == KeyEvent.ACTION_DOWN);
     }
 
     public static TextWatcher addAfterTextChangeListener(final TextView textView, Runnable afterTextChanged){

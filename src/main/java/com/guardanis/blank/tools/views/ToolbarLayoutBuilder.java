@@ -28,7 +28,8 @@ public class ToolbarLayoutBuilder {
         actionBar.setDisplayShowCustomEnabled(true);
         actionBar.setCustomView(inflatedLayoutResId);
 
-        this.toolbar = (Toolbar) actionBar.getCustomView().getParent();
+        this.toolbar = (Toolbar) actionBar.getCustomView()
+                .getParent();
 
         applyInsetChanges();
     }

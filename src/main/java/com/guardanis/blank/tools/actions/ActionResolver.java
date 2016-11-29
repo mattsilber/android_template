@@ -20,7 +20,9 @@ public class ActionResolver {
     public void resolve(final Runnable successListener) {
         for(Resolvable resolvable : resolvables){
             if(resolvable.isResolutionRequired()){
-                resolvable.resolve(() -> resolve(successListener));
+                resolvable.resolve(() ->
+                        resolve(successListener));
+
                 return;
             }
         }
